@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useState, useEffect } from 'react';
+import img from '../assets/herosection.png';
 
 const Home = () => {
     const { isAuthenticated, user } = useAuth();
@@ -13,7 +14,7 @@ const Home = () => {
     return (
         <div className="min-h-screen hero-mesh">
             {/* Hero Section */}
-            <div className="container mx-auto px-6 py-16 md:py-24">
+            <div className="container mx-auto px-6 py-24 md:py-36">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     <div className={`space-y-8 ${isVisible ? 'fade-in-up' : 'opacity-0'}`}>
                         <div className="inline-block px-4 py-2 bg-blue-50 rounded-full border border-blue-100 mb-4">
@@ -39,7 +40,7 @@ const Home = () => {
                                         to="/login"
                                         className="px-8 py-4 text-lg font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-center"
                                     >
-                                        Patient Login
+                                        Login
                                     </Link>
                                 </>
                             ) : (
@@ -60,10 +61,6 @@ const Home = () => {
 
                         <div className="flex items-center gap-6 pt-8 text-sm text-gray-500 font-medium">
                             <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                                HIPAA Compliant
-                            </div>
-                            <div className="flex items-center gap-2">
                                 <div className="w-2 h-2 rounded-full bg-blue-500"></div>
                                 24/7 Access
                             </div>
@@ -76,51 +73,23 @@ const Home = () => {
 
                     {/* Hero Visual */}
                     <div className={`relative hidden md:block ${isVisible ? 'fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
-                        <div className="absolute -top-12 -right-12 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-                        <div className="absolute -bottom-12 -left-12 w-72 h-72 bg-cyan-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-                        <div className="absolute -bottom-8 right-20 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+                        <div className="relative">
+                            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-[2rem] blur opacity-20"></div>
+                            <img
+                                src={img}
+                                alt="Modern healthcare consultation"
+                                className="relative w-full h-auto object-cover rounded-[2rem] shadow-2xl transform hover:scale-[1.02] transition-transform duration-500"
+                            />
 
-                        <div className="relative glass-card p-8 rounded-3xl transform rotate-minus-2 hover:rotate-0 transition-transform duration-500">
-                            <div className="flex items-center justify-between mb-8">
-                                <div>
-                                    <p className="text-gray-500 text-sm">Daily Activity</p>
-                                    <h3 className="text-2xl font-bold text-gray-800">10,432 Steps</h3>
-                                </div>
-                                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-2xl">
-                                    👣
-                                </div>
-                            </div>
-                            <div className="space-y-4">
-                                <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                                    <div className="h-full bg-green-500 w-3/4 rounded-full"></div>
-                                </div>
-                                <div className="flex justify-between text-sm text-gray-500">
-                                    <span>Morning Walk</span>
-                                    <span>3.2 km</span>
-                                </div>
-                            </div>
-
-                            {/* Decorative Elements */}
-                            <div className="absolute -right-6 top-24 glass p-4 rounded-2xl shadow-lg transform rotate-6 animate-float">
+                            {/* Floating Card Element */}
+                            <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-lg animate-float-delayed hidden lg:block">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-xl">
-                                        💧
+                                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-xl">
+                                        ✨
                                     </div>
                                     <div>
-                                        <p className="text-xs text-gray-500">Hydration</p>
-                                        <p className="font-bold text-blue-600">1,250 ml</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="absolute -left-6 bottom-12 glass p-4 rounded-2xl shadow-lg transform -rotate-3 animate-float-delayed">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center text-xl">
-                                        ❤️
-                                    </div>
-                                    <div>
-                                        <p className="text-xs text-gray-500">Heart Rate</p>
-                                        <p className="font-bold text-red-600">72 bpm</p>
+                                        <p className="text-xs text-gray-500 font-medium">Patient Satisfaction</p>
+                                        <p className="font-bold text-gray-900">98.5%</p>
                                     </div>
                                 </div>
                             </div>

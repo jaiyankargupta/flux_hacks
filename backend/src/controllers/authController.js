@@ -96,6 +96,7 @@ exports.updateProfile = async (req, res, next) => {
         const fieldsToUpdate = {
             name: req.body.name,
             email: req.body.email,
+            basicInfo: req.body.basicInfo,
             healthInfo: req.body.healthInfo,
         };
 

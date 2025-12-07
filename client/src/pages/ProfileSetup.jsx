@@ -42,8 +42,10 @@ const ProfileSetup = () => {
                 }
             );
 
-            // Redirect to provider selection
-            navigate('/select-provider');
+            // Small delay before redirect to ensure API call is complete
+            setTimeout(() => {
+                navigate('/select-provider');
+            }, 100);
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to update profile');
         } finally {

@@ -24,6 +24,27 @@ api.interceptors.request.use(
     }
 );
 
+// Handle response errors
+api.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        // If we get a 401 error, clear the token and redirect to login
+        if (error.response?.status === 401) {
+            localStorage.removeItem('token');
+            // Only redirect if we're not already on login/register pages
+            const currentPath = window.location.pathname;
+            if (!currentPath.includes('/login') && !currentPath.includes('/register')) {
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 1000);
+            }
+        }
+        return Promise.reject(error);
+    }
+);
+
 // Auth API
 export const authAPI = {
     register: (userData) => api.post('/auth/register', userData),

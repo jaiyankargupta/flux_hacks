@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { patientAPI } from '../services/api.js';
 import '../styles/ProviderSelection.css';
 
 const ProviderSelection = () => {
@@ -12,24 +12,42 @@ const ProviderSelection = () => {
     const [assigning, setAssigning] = useState(false);
 
     useEffect(() => {
-        fetchProviders();
+        // Add a small delay to ensure token is properly set after navigation
+        const timer = setTimeout(() => {
+            fetchProviders();
+        }, 100);
+        
+        return () => clearTimeout(timer);
     }, []);
 
     const fetchProviders = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(
-                'http://localhost:5001/api/patient/providers',
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            setProviders(response.data.data);
+            
+            if (!token) {
+                setError('Authentication required. Please log in again.');
+                setTimeout(() => {
+                    navigate('/login');
+                }, 1500);
+                return;
+            }
+            
+            const response = await patientAPI.getAvailableProviders();
+            setProviders(response.data.data || []);
         } catch (err) {
-            setError('Failed to load providers');
-            console.error(err);
+            console.error('Provider fetch error:', err.response || err);
+            
+            if (err.response?.status === 401) {
+                // Clear invalid token and redirect to login
+                localStorage.removeItem('token');
+                setError('Your session has expired. Please log in again.');
+                // Optionally redirect to login after a delay
+                setTimeout(() => {
+                    navigate('/login');
+                }, 1500);
+            } else {
+                setError(err.response?.data?.message || 'Failed to load providers');
+            }
         } finally {
             setLoading(false);
         }
@@ -45,25 +63,36 @@ const ProviderSelection = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.post(
-                `http://localhost:5001/api/patient/provider/${providerId}`,
-                {},
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+            
+            if (!token) {
+                setError('Authentication required. Please log in again.');
+                setAssigning(false);
+                return;
+            }
+            
+            await patientAPI.assignProvider(providerId);
 
-            // Redirect to dashboard immediately
-            navigate('/patient/dashboard');
+            // Show success message briefly before redirect
+            setError('');
+            setTimeout(() => {
+                navigate('/patient/dashboard');
+            }, 500);
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to assign provider');
+            console.error('Provider assignment error:', err.response || err);
+            
+            if (err.response?.status === 401) {
+                // Clear invalid token and redirect to login
+                localStorage.removeItem('token');
+                setError('Your session has expired. Please log in again.');
+                setTimeout(() => {
+                    navigate('/login');
+                }, 1500);
+            } else {
+                setError(err.response?.data?.message || 'Failed to assign provider');
+            }
             setAssigning(false);
         }
     };
-
-
 
     if (loading) {
         return (
@@ -108,7 +137,7 @@ const ProviderSelection = () => {
                             <h3 className="no-providers-title">No Providers Available</h3>
                             <p className="no-providers-text">There are currently no healthcare providers registered.</p>
                             <button
-                                onClick={handleSkip}
+                                onClick={() => navigate('/patient/dashboard')}
                                 className="btn btn-primary"
                             >
                                 Continue to Dashboard
@@ -120,7 +149,7 @@ const ProviderSelection = () => {
                                 {providers.map((provider) => (
                                     <div
                                         key={provider._id}
-                                        className={`provider-card ${selectedProvider === provider._id ? 'selected' : ''}`}
+                                        className={`provider-card ${selectedProvider === provider._id ? 'selected' : ''} ${assigning ? 'disabled' : ''}`}
                                         onClick={() => !assigning && handleSelectProvider(provider._id)}
                                     >
                                         <div className="provider-card-header">

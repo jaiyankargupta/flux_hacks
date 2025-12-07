@@ -199,13 +199,7 @@ const ProfileSetup = () => {
                         </div>
 
                         <div className="flex gap-4 pt-4">
-                            <button
-                                type="button"
-                                onClick={handleSkip}
-                                className="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors"
-                            >
-                                Skip for Now
-                            </button>
+                            
                             <button
                                 type="submit"
                                 disabled={loading}

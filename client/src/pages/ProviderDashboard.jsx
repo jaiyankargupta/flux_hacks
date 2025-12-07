@@ -3,9 +3,12 @@ import { providerAPI } from '../services/api.js';
 import PatientList from '../components/Provider/PatientList.jsx';
 import PatientDetails from '../components/Provider/PatientDetails.jsx';
 import Loading from '../components/Common/Loading.jsx';
+import ChatWidget from '../components/Common/ChatWidget.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 import '../styles/ProviderDashboard.css';
 
 const ProviderDashboard = () => {
+    const { user } = useAuth();
     const [patients, setPatients] = useState([]);
     const [selectedPatient, setSelectedPatient] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -26,7 +29,7 @@ const ProviderDashboard = () => {
         const compliant = patientsData.filter(p => p.complianceStatus === 'Goal Met').length;
         const pendingCheckups = patientsData.filter(p => p.complianceStatus === 'Missed Preventive Checkup').length;
         const noData = patientsData.filter(p => p.complianceStatus === 'No Data').length;
-        
+
         setStats({ total, compliant, pendingCheckups, noData });
     };
 
@@ -185,6 +188,7 @@ const ProviderDashboard = () => {
                     </div>
                 </div>
             </div>
+            <ChatWidget currentUser={user} targetUser={selectedPatient?.patient} />
         </div>
     );
 };

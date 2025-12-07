@@ -61,6 +61,7 @@ export const patientAPI = {
     getReminders: () => api.get('/patient/reminders'),
     completeReminder: (id) => api.put(`/patient/reminders/${id}/complete`),
     getProviders: () => api.get('/patient/providers'),
+    getAssignedProvider: () => api.get('/patient/provider'),
     selectProvider: (providerId) => api.post(`/patient/provider/${providerId}`),
 };
 

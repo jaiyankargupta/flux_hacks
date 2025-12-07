@@ -23,49 +23,42 @@ const Navbar = () => {
                     </span>
                 </Link>
 
-                    {/* Navigation Links */}
-                    <div className="flex items-center space-x-8">
-                        {isAuthenticated ? (
-                            <>
-                                <Link
-                                    to={
-                                        user?.role === 'patient'
-                                            ? '/patient/dashboard'
-                                            : user?.role === 'provider'
-                                                ? '/provider/dashboard'
-                                                : '/admin/dashboard'
-                                    }
-                                    className="nav-link font-medium"
-                                >
-                                    Dashboard
-                                </Link>
-                                {user?.role === 'patient' && (
-                                    <Link
-                                        to="/patient/profile"
-                                        className="nav-link font-medium"
-                                    >
-                                        Profile
-                                    </Link>
-                                )}
-                                <div className="flex items-center space-x-4 pl-4 border-l border-gray-200">
-                                    <div className="text-right hidden md:block">
-                                        <p className="text-sm font-bold text-gray-800">{user?.name}</p>
-                                        <p className="text-xs text-blue-600 font-medium capitalize bg-blue-50 px-2 py-0.5 rounded-full inline-block">
-                                            {user?.role}
-                                        </p>
-                                    </div>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="btn btn-secondary text-sm hover:bg-gray-200 transition-colors"
-                                    >
-                                        Logout
-                                    </button>
+                {/* Navigation Links */}
+                <div className="nav-links">
+                    {isAuthenticated ? (
+                        <>
+                            <Link
+                                to={
+                                    user?.role === 'patient'
+                                        ? '/patient/dashboard'
+                                        : user?.role === 'provider'
+                                            ? '/provider/dashboard'
+                                            : '/admin/dashboard'
+                                }
+                                className="nav-link"
+                            >
+                                Dashboard
+                            </Link>
+                            {user?.role === 'patient' && <Link
+                                to="/profile"
+                                className="nav-link"
+                            >
+                                Profile
+                            </Link>}
+
+                            <div className="nav-divider"></div>
+
+                            <div className="nav-user">
+                                <div className="nav-user-info hidden md:block">
+                                    <span className="nav-user-name">{user?.name}</span>
+                                    <span className="nav-user-role">
+                                        {user?.role}
+                                    </span>
                                 </div>
                                 <button
                                     onClick={handleLogout}
                                     className="btn btn-secondary text-sm hover:bg-gray-200 transition-colors"
                                 >
-                                    
                                     Logout
                                 </button>
                             </div>
@@ -90,3 +83,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

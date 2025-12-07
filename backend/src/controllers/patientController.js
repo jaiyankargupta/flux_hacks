@@ -55,7 +55,7 @@ exports.getDashboard = async (req, res, next) => {
 // @access  Private (Patient)
 exports.updateGoals = async (req, res, next) => {
     try {
-        const { steps, activeTime, sleep, caloriesBurned, waterIntake } = req.body;
+        const { steps, activeTime, sleep, caloriesBurned, waterIntake, targets } = req.body;
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -74,13 +74,32 @@ exports.updateGoals = async (req, res, next) => {
                 sleep,
                 caloriesBurned,
                 waterIntake,
+                targets: targets || {
+                    steps: 10000,
+                    activeTime: 60,
+                    sleep: 8,
+                    caloriesBurned: 500,
+                    waterIntake: 2000,
+                },
             });
         } else {
-            goal.steps = steps !== undefined ? steps : goal.steps;
-            goal.activeTime = activeTime !== undefined ? activeTime : goal.activeTime;
-            goal.sleep = sleep !== undefined ? sleep : goal.sleep;
-            goal.caloriesBurned = caloriesBurned !== undefined ? caloriesBurned : goal.caloriesBurned;
-            goal.waterIntake = waterIntake !== undefined ? waterIntake : goal.waterIntake;
+            // Update progress values if provided
+            if (steps !== undefined) goal.steps = steps;
+            if (activeTime !== undefined) goal.activeTime = activeTime;
+            if (sleep !== undefined) goal.sleep = sleep;
+            if (caloriesBurned !== undefined) goal.caloriesBurned = caloriesBurned;
+            if (waterIntake !== undefined) goal.waterIntake = waterIntake;
+            
+            // Update target values if provided
+            if (targets) {
+                goal.targets = goal.targets || {};
+                if (targets.steps !== undefined) goal.targets.steps = targets.steps;
+                if (targets.activeTime !== undefined) goal.targets.activeTime = targets.activeTime;
+                if (targets.sleep !== undefined) goal.targets.sleep = targets.sleep;
+                if (targets.caloriesBurned !== undefined) goal.targets.caloriesBurned = targets.caloriesBurned;
+                if (targets.waterIntake !== undefined) goal.targets.waterIntake = targets.waterIntake;
+            }
+            
             await goal.save();
         }
 

@@ -35,6 +35,10 @@ const ProviderSelection = () => {
     };
 
     const handleSelectProvider = async (providerId) => {
+        // Prevent double-click
+        if (assigning) return;
+
+        setSelectedProvider(providerId);
         setAssigning(true);
         setError('');
 
@@ -50,18 +54,15 @@ const ProviderSelection = () => {
                 }
             );
 
-            // Redirect to dashboard
+            // Redirect to dashboard immediately
             navigate('/patient/dashboard');
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to assign provider');
-        } finally {
             setAssigning(false);
         }
     };
 
-    const handleSkip = () => {
-        navigate('/patient/dashboard');
-    };
+
 
     if (loading) {
         return (
@@ -122,7 +123,7 @@ const ProviderSelection = () => {
                                             ? 'border-primary-600 bg-primary-50'
                                             : 'border-gray-200 hover:border-primary-300'
                                             }`}
-                                        onClick={() => setSelectedProvider(provider._id)}
+                                        onClick={() => !assigning && handleSelectProvider(provider._id)}
                                     >
                                         <div className="flex items-start justify-between mb-4">
                                             <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-white text-2xl font-bold">
@@ -164,22 +165,14 @@ const ProviderSelection = () => {
                                 ))}
                             </div>
 
-                            <div className="flex gap-4">
-                                <button
-                                    type="button"
-                                    onClick={handleSkip}
-                                    className="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors"
-                                >
-                                    Skip for Now
-                                </button>
-                                <button
-                                    onClick={() => selectedProvider && handleSelectProvider(selectedProvider)}
-                                    disabled={!selectedProvider || assigning}
-                                    className="flex-1 btn btn-primary py-3 disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    {assigning ? 'Assigning...' : 'Continue to Dashboard →'}
-                                </button>
-                            </div>
+                            {assigning && (
+                                <div className="text-center py-4">
+                                    <div className="inline-flex items-center gap-2 text-primary-600">
+                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-600"></div>
+                                        <span className="font-medium">Assigning provider and redirecting...</span>
+                                    </div>
+                                </div>
+                            )}
                         </>
                     )}
                 </div>

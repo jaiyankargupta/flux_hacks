@@ -48,4 +48,21 @@ export const providerAPI = {
     createReminder: (patientId, data) => api.post(`/provider/patients/${patientId}/reminders`, data),
 };
 
+// Admin API
+export const adminAPI = {
+    // Dashboard stats
+    getStats: () => api.get('/admin/stats'),
+
+    // Provider management
+    getAllProviders: () => api.get('/admin/providers'),
+    getProvider: (id) => api.get(`/admin/providers/${id}`),
+    createProvider: (data) => api.post('/admin/providers', data),
+    updateProvider: (id, data) => api.put(`/admin/providers/${id}`, data),
+    deleteProvider: (id) => api.delete(`/admin/providers/${id}`),
+    resetProviderPassword: (id, newPassword) => api.put(`/admin/providers/${id}/reset-password`, { newPassword }),
+
+    // Patient management
+    getAllPatients: () => api.get('/admin/patients'),
+};
+
 export default api;

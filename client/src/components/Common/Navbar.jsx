@@ -29,7 +29,13 @@ const Navbar = () => {
                         {isAuthenticated ? (
                             <>
                                 <Link
-                                    to={user?.role === 'patient' ? '/patient/dashboard' : '/provider/dashboard'}
+                                    to={
+                                        user?.role === 'patient'
+                                            ? '/patient/dashboard'
+                                            : user?.role === 'provider'
+                                                ? '/provider/dashboard'
+                                                : '/admin/dashboard'
+                                    }
                                     className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
                                 >
                                     Dashboard

@@ -33,6 +33,8 @@ const Login = () => {
                 navigate('/patient/dashboard');
             } else if (userRole === 'provider') {
                 navigate('/provider/dashboard');
+            } else if (userRole === 'admin') {
+                navigate('/admin/dashboard');
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed. Please try again.');

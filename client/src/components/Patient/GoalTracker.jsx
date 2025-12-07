@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { patientAPI } from '../../services/api.js';
 
 const GoalTracker = ({ goals, onUpdate }) => {
-    const [showModal, setShowModal] = useState(false);
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const [goalData, setGoalData] = useState({
+    // For updating current progress (numerator)
+    const [progressData, setProgressData] = useState({
         steps: goals?.steps || 0,
         activeTime: goals?.activeTime || 0,
         sleep: goals?.sleep || 0,
@@ -14,32 +16,67 @@ const GoalTracker = ({ goals, onUpdate }) => {
         waterIntake: goals?.waterIntake || 0,
     });
 
+    // For setting targets (denominator)
+    const [targetData, setTargetData] = useState({
+        steps: goals?.targets?.steps || 10000,
+        activeTime: goals?.targets?.activeTime || 60,
+        sleep: goals?.targets?.sleep || 8,
+        caloriesBurned: goals?.targets?.caloriesBurned || 500,
+        waterIntake: goals?.targets?.waterIntake || 2000,
+    });
+
     const goalTargets = {
-        steps: 10000,
-        activeTime: 60,
-        sleep: 8,
-        caloriesBurned: 500,
-        waterIntake: 2000,
+        steps: goals?.targets?.steps || 10000,
+        activeTime: goals?.targets?.activeTime || 60,
+        sleep: goals?.targets?.sleep || 8,
+        caloriesBurned: goals?.targets?.caloriesBurned || 500,
+        waterIntake: goals?.targets?.waterIntake || 2000,
     };
 
-    const handleChange = (e) => {
-        setGoalData({
-            ...goalData,
+    const handleProgressChange = (e) => {
+        setProgressData({
+            ...progressData,
             [e.target.name]: Number(e.target.value),
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleTargetChange = (e) => {
+        setTargetData({
+            ...targetData,
+            [e.target.name]: Number(e.target.value),
+        });
+    };
+
+    const handleUpdateProgress = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError('');
 
         try {
-            await patientAPI.updateGoals(goalData);
-            setShowModal(false);
+            await patientAPI.updateGoals(progressData);
+            setShowUpdateModal(false);
             if (onUpdate) onUpdate();
         } catch (err) {
-            setError('Failed to update goals');
+            setError('Failed to update progress');
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleAddGoal = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
+
+        try {
+            // This would need a new API endpoint to update targets
+            // For now, we'll use the same endpoint but with targets field
+            await patientAPI.updateGoals({ targets: targetData });
+            setShowAddModal(false);
+            if (onUpdate) onUpdate();
+        } catch (err) {
+            setError('Failed to add goal targets');
             console.error(err);
         } finally {
             setLoading(false);
@@ -62,12 +99,20 @@ const GoalTracker = ({ goals, onUpdate }) => {
         <div className="card">
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">Today's Goals</h2>
-                <button
-                    onClick={() => setShowModal(true)}
-                    className="btn btn-primary px-4 py-2 text-sm"
-                >
-                    Update Goals
-                </button>
+                <div className="flex gap-2">
+                    <button
+                        onClick={() => setShowAddModal(true)}
+                        className="btn btn-secondary px-4 py-2 text-sm"
+                    >
+                        + Add Goal
+                    </button>
+                    <button
+                        onClick={() => setShowUpdateModal(true)}
+                        className="btn btn-primary px-4 py-2 text-sm"
+                    >
+                        Update Goals
+                    </button>
+                </div>
             </div>
 
             <div className="space-y-4">
@@ -103,15 +148,19 @@ const GoalTracker = ({ goals, onUpdate }) => {
                 })}
             </div>
 
-            {/* Add/Edit Goal Modal */}
-            {showModal && (
+
+            {/* Update Goal Modal - Updates current progress (numerator) */}
+            {showUpdateModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div className="p-6">
                             <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-2xl font-bold text-gray-900">Update Your Goals</h3>
+                                <div>
+                                    <h3 className="text-2xl font-bold text-gray-900">Update Your Progress</h3>
+                                    <p className="text-sm text-gray-500 mt-1">Update your current progress for today</p>
+                                </div>
                                 <button
-                                    onClick={() => setShowModal(false)}
+                                    onClick={() => setShowUpdateModal(false)}
                                     className="text-gray-400 hover:text-gray-600 text-2xl"
                                 >
                                     ×
@@ -124,88 +173,93 @@ const GoalTracker = ({ goals, onUpdate }) => {
                                 </div>
                             )}
 
-                            <form onSubmit={handleSubmit} className="space-y-4">
+                            <form onSubmit={handleUpdateProgress} className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        👣 Steps
+                                        👣 Steps (Current)
                                     </label>
                                     <input
                                         type="number"
                                         name="steps"
                                         className="input"
-                                        placeholder="10000"
-                                        value={goalData.steps}
-                                        onChange={handleChange}
+                                        placeholder="0"
+                                        value={progressData.steps}
+                                        onChange={handleProgressChange}
                                         min="0"
                                     />
+                                    <p className="text-xs text-gray-500 mt-1">Target: {goalTargets.steps} steps</p>
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        💧 Water Intake (ml)
+                                        💧 Water Intake (ml) (Current)
                                     </label>
                                     <input
                                         type="number"
                                         name="waterIntake"
                                         className="input"
-                                        placeholder="2000"
-                                        value={goalData.waterIntake}
-                                        onChange={handleChange}
+                                        placeholder="0"
+                                        value={progressData.waterIntake}
+                                        onChange={handleProgressChange}
                                         min="0"
                                     />
+                                    <p className="text-xs text-gray-500 mt-1">Target: {goalTargets.waterIntake} ml</p>
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        😴 Sleep (hours)
+                                        � Sleep (hours) (Current)
                                     </label>
                                     <input
                                         type="number"
                                         name="sleep"
                                         className="input"
-                                        placeholder="8"
-                                        value={goalData.sleep}
-                                        onChange={handleChange}
+                                        placeholder="0"
+                                        value={progressData.sleep}
+                                        onChange={handleProgressChange}
                                         min="0"
                                         max="24"
                                         step="0.5"
                                     />
+                                    <p className="text-xs text-gray-500 mt-1">Target: {goalTargets.sleep} hours</p>
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        🏃 Active Time (minutes)
+                                        🏃 Active Time (minutes) (Current)
                                     </label>
                                     <input
                                         type="number"
                                         name="activeTime"
                                         className="input"
-                                        placeholder="60"
-                                        value={goalData.activeTime}
-                                        onChange={handleChange}
+                                        placeholder="0"
+                                        value={progressData.activeTime}
+                                        onChange={handleProgressChange}
                                         min="0"
                                     />
+                                    <p className="text-xs text-gray-500 mt-1">Target: {goalTargets.activeTime} min</p>
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        🔥 Calories Burned
+                                        🔥 Calories Burned (Current)
                                     </label>
                                     <input
                                         type="number"
                                         name="caloriesBurned"
                                         className="input"
-                                        placeholder="500"
-                                        value={goalData.caloriesBurned}
-                                        onChange={handleChange}
+                                        placeholder="0"
+                                        value={progressData.caloriesBurned}
+                                        onChange={handleProgressChange}
                                         min="0"
                                     />
+                                    <p className="text-xs text-gray-500 mt-1">Target: {goalTargets.caloriesBurned} cal</p>
                                 </div>
 
                                 <div className="flex gap-4 pt-4">
                                     <button
                                         type="button"
-                                        onClick={() => setShowModal(false)}
+                                        onClick={() => setShowUpdateModal(false)}
                                         className="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors"
                                     >
                                         Cancel
@@ -215,7 +269,131 @@ const GoalTracker = ({ goals, onUpdate }) => {
                                         disabled={loading}
                                         className="flex-1 btn btn-primary py-3"
                                     >
-                                        {loading ? 'Saving...' : 'Save Goals'}
+                                        {loading ? 'Updating...' : 'Update Progress'}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Add Goal Modal - Sets target values (denominator) */}
+            {showAddModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="p-6">
+                            <div className="flex items-center justify-between mb-6">
+                                <div>
+                                    <h3 className="text-2xl font-bold text-gray-900">Set Goal Targets</h3>
+                                    <p className="text-sm text-gray-500 mt-1">Define your daily wellness targets</p>
+                                </div>
+                                <button
+                                    onClick={() => setShowAddModal(false)}
+                                    className="text-gray-400 hover:text-gray-600 text-2xl"
+                                >
+                                    ×
+                                </button>
+                            </div>
+
+                            {error && (
+                                <div className="bg-danger-50 border border-danger-200 text-danger-700 px-4 py-3 rounded-lg mb-4">
+                                    {error}
+                                </div>
+                            )}
+
+                            <form onSubmit={handleAddGoal} className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        👣 Steps Target
+                                    </label>
+                                    <input
+                                        type="number"
+                                        name="steps"
+                                        className="input"
+                                        placeholder="10000"
+                                        value={targetData.steps}
+                                        onChange={handleTargetChange}
+                                        min="0"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        💧 Water Intake Target (ml)
+                                    </label>
+                                    <input
+                                        type="number"
+                                        name="waterIntake"
+                                        className="input"
+                                        placeholder="2000"
+                                        value={targetData.waterIntake}
+                                        onChange={handleTargetChange}
+                                        min="0"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        😴 Sleep Target (hours)
+                                    </label>
+                                    <input
+                                        type="number"
+                                        name="sleep"
+                                        className="input"
+                                        placeholder="8"
+                                        value={targetData.sleep}
+                                        onChange={handleTargetChange}
+                                        min="0"
+                                        max="24"
+                                        step="0.5"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        🏃 Active Time Target (minutes)
+                                    </label>
+                                    <input
+                                        type="number"
+                                        name="activeTime"
+                                        className="input"
+                                        placeholder="60"
+                                        value={targetData.activeTime}
+                                        onChange={handleTargetChange}
+                                        min="0"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        🔥 Calories Burned Target
+                                    </label>
+                                    <input
+                                        type="number"
+                                        name="caloriesBurned"
+                                        className="input"
+                                        placeholder="500"
+                                        value={targetData.caloriesBurned}
+                                        onChange={handleTargetChange}
+                                        min="0"
+                                    />
+                                </div>
+
+                                <div className="flex gap-4 pt-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowAddModal(false)}
+                                        className="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        className="flex-1 btn btn-primary py-3"
+                                    >
+                                        {loading ? 'Saving...' : 'Set Targets'}
                                     </button>
                                 </div>
                             </form>

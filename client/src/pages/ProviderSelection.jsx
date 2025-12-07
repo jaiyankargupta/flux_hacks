@@ -23,6 +23,7 @@ const ProviderSelection = () => {
     const fetchProviders = async () => {
         try {
             const token = localStorage.getItem('token');
+            console.log('Token available:', !!token);
             
             if (!token) {
                 setError('Authentication required. Please log in again.');
@@ -32,7 +33,9 @@ const ProviderSelection = () => {
                 return;
             }
             
-            const response = await patientAPI.getAvailableProviders();
+            console.log('Fetching providers...');
+            const response = await patientAPI.getProviders();
+            console.log('Providers response:', response.data);
             setProviders(response.data.data || []);
         } catch (err) {
             console.error('Provider fetch error:', err.response || err);
@@ -63,6 +66,8 @@ const ProviderSelection = () => {
 
         try {
             const token = localStorage.getItem('token');
+            console.log('Assignment token available:', !!token);
+            console.log('Attempting to assign provider:', providerId);
             
             if (!token) {
                 setError('Authentication required. Please log in again.');
@@ -70,7 +75,8 @@ const ProviderSelection = () => {
                 return;
             }
             
-            await patientAPI.assignProvider(providerId);
+            await patientAPI.selectProvider(providerId);
+            console.log('Provider assigned successfully');
 
             // Show success message briefly before redirect
             setError('');

@@ -60,6 +60,8 @@ export const patientAPI = {
     getGoalHistory: (days = 7) => api.get(`/patient/goals/history?days=${days}`),
     getReminders: () => api.get('/patient/reminders'),
     completeReminder: (id) => api.put(`/patient/reminders/${id}/complete`),
+    getProviders: () => api.get('/patient/providers'),
+    selectProvider: (providerId) => api.post(`/patient/provider/${providerId}`),
 };
 
 // Provider API

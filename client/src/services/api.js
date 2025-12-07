@@ -89,4 +89,8 @@ export const adminAPI = {
     getAllPatients: () => api.get('/admin/patients'),
 };
 
+export const messageAPI = {
+    getMessages: (userId) => api.get(`/messages/${userId}`),
+};
+
 export default api;

@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react';
 import { patientAPI } from '../services/api.js';
+import { useAuth } from '../context/AuthContext.jsx';
 import GoalTracker from '../components/Patient/GoalTracker.jsx';
 import RemindersCard from '../components/Patient/RemindersCard.jsx';
 import HealthTipCard from '../components/Patient/HealthTipCard.jsx';
 import Loading from '../components/Common/Loading.jsx';
+import ChatWidget from '../components/Common/ChatWidget.jsx';
 
 const PatientDashboard = () => {
+    const { user } = useAuth();
     const [dashboardData, setDashboardData] = useState(null);
+    const [assignedProvider, setAssignedProvider] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     useEffect(() => {
         fetchDashboard();
+        fetchProvider();
     }, []);
 
     const fetchDashboard = async () => {
@@ -23,6 +28,15 @@ const PatientDashboard = () => {
             console.error(err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const fetchProvider = async () => {
+        try {
+            const response = await patientAPI.getAssignedProvider();
+            setAssignedProvider(response.data.data);
+        } catch (err) {
+            console.error('Failed to fetch assigned provider', err);
         }
     };
 
@@ -71,6 +85,9 @@ const PatientDashboard = () => {
                     </div>
                 </div>
             </div>
+            {assignedProvider && (
+                <ChatWidget currentUser={user} targetUser={assignedProvider} />
+            )}
         </div>
     );
 };

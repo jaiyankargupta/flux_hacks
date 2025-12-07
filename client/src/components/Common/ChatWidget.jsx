@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
-import axios from 'axios';
+import { messageAPI } from '../../services/api';
 import '../../styles/ChatWidget.css';
 
 const ENDPOINT = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5001';
@@ -27,12 +27,7 @@ const ChatWidget = ({ currentUser, targetUser }) => {
         // Load Chat History
         const fetchHistory = async () => {
             try {
-                const token = localStorage.getItem('token');
-                if (!token) return;
-
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/messages/${targetUser._id}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+                const res = await messageAPI.getMessages(targetUser._id);
                 setMessageList(res.data.data);
                 scrollToBottom();
             } catch (err) {

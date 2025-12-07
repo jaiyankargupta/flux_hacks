@@ -7,8 +7,11 @@ const Reminder = require('../models/Reminder');
 // @access  Private (Provider)
 exports.getPatients = async (req, res, next) => {
     try {
-        // For MVP, get all patients (in production, filter by assigned patients)
-        const patients = await User.find({ role: 'patient' }).select('-password');
+        // Get only patients assigned to this provider
+        const patients = await User.find({ 
+            role: 'patient',
+            assignedProvider: req.user.id 
+        }).select('-password');
 
         // Get compliance status for each patient
         const patientsWithCompliance = await Promise.all(
@@ -69,6 +72,14 @@ exports.getPatientDetails = async (req, res, next) => {
             });
         }
 
+        // Ensure the patient is assigned to this provider
+        if (patient.assignedProvider?.toString() !== req.user.id) {
+            return res.status(403).json({
+                success: false,
+                message: 'Access denied. Patient not assigned to you.',
+            });
+        }
+
         // Get patient's goals (last 7 days)
         const startDate = new Date();
         startDate.setDate(startDate.getDate() - 7);
@@ -109,6 +120,14 @@ exports.createReminder = async (req, res, next) => {
             return res.status(404).json({
                 success: false,
                 message: 'Patient not found',
+            });
+        }
+
+        // Ensure the patient is assigned to this provider
+        if (patient.assignedProvider?.toString() !== req.user.id) {
+            return res.status(403).json({
+                success: false,
+                message: 'Access denied. Patient not assigned to you.',
             });
         }
 

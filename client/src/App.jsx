@@ -8,6 +8,7 @@ import Register from './pages/Register.jsx';
 import ProfileSetup from './pages/ProfileSetup.jsx';
 import ProviderSelection from './pages/ProviderSelection.jsx';
 import PatientDashboard from './pages/PatientDashboard.jsx';
+import PatientProfile from './pages/PatientProfile.jsx';
 import ProviderDashboard from './pages/ProviderDashboard.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
 
@@ -29,6 +30,15 @@ function App() {
               element={
                 <PrivateRoute role="patient">
                   <PatientDashboard />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/patient/profile"
+              element={
+                <PrivateRoute role="patient">
+                  <PatientProfile />
                 </PrivateRoute>
               }
             />

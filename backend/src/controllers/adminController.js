@@ -10,6 +10,8 @@ exports.getAllProviders = asyncHandler(async (req, res) => {
         .select('-password')
         .sort({ createdAt: -1 });
 
+    console.log(`[Admin] Fetched ${providers.length} providers`);
+
     res.status(200).json({
         success: true,
         count: providers.length,
@@ -53,6 +55,7 @@ exports.createProvider = asyncHandler(async (req, res) => {
     // Check if user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
+        console.log(`[Admin] Failed to create provider: Email ${email} already exists`);
         return res.status(400).json({
             success: false,
             message: 'Provider with this email already exists',
@@ -72,6 +75,8 @@ exports.createProvider = asyncHandler(async (req, res) => {
 
     // Remove password from response
     provider.password = undefined;
+
+    console.log(`[Admin] Created new provider: ${provider.name} (${provider.email})`);
 
     res.status(201).json({
         success: true,
@@ -118,6 +123,8 @@ exports.updateProvider = asyncHandler(async (req, res) => {
         }
     ).select('-password');
 
+    console.log(`[Admin] Updated provider: ${provider._id}`);
+
     res.status(200).json({
         success: true,
         message: 'Provider updated successfully',
@@ -148,6 +155,8 @@ exports.deleteProvider = asyncHandler(async (req, res) => {
     }
 
     await User.findByIdAndDelete(req.params.id);
+
+    console.log(`[Admin] Deleted provider: ${req.params.id}`);
 
     res.status(200).json({
         success: true,
@@ -235,6 +244,8 @@ exports.resetProviderPassword = asyncHandler(async (req, res) => {
 
     provider.password = newPassword;
     await provider.save();
+
+    console.log(`[Admin] Reset password for provider: ${provider._id}`);
 
     res.status(200).json({
         success: true,

@@ -11,18 +11,17 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="glass sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
-                    {/* Logo */}{/* Updated Logo Section */}
-                    <Link to="/" className="flex items-center space-x-3 group">
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl shadow-lg flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
-                            <span className="text-white font-bold text-xl">H+</span>
-                        </div>
-                        <span className="text-xl font-bold text-gray-800 tracking-tight group-hover:text-blue-600 transition-colors">
-                            Healthcare Portal
-                        </span>
-                    </Link>
+        <nav className="navbar">
+            <div className="navbar-container">
+                {/* Logo Section */}
+                <Link to="/" className="nav-logo group">
+                    <div className="nav-logo-icon">
+                        <span>H+</span>
+                    </div>
+                    <span className="nav-logo-text">
+                        Healthcare Portal
+                    </span>
+                </Link>
 
                     {/* Navigation Links */}
                     <div className="flex items-center space-x-8">
@@ -62,21 +61,27 @@ const Navbar = () => {
                                         Logout
                                     </button>
                                 </div>
-                            </>
-                        ) : (
-                            <>
-                                <Link to="/" className="nav-link font-medium">
-                                    Home
-                                </Link>
-                                <Link to="/login" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">
-                                    Login
-                                </Link>
-                                <Link to="/register" className="btn btn-primary text-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-                                    Get Started
-                                </Link>
-                            </>
-                        )}
-                    </div>
+                                <button
+                                    onClick={handleLogout}
+                                    className="btn btn-secondary text-sm hover:bg-gray-200 transition-colors"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <Link to="/" className="nav-link">
+                                Home
+                            </Link>
+                            <Link to="/login" className="nav-link">
+                                Login
+                            </Link>
+                            <Link to="/register" className="btn btn-primary text-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+                                Get Started
+                            </Link>
+                        </>
+                    )}
                 </div>
             </div>
         </nav>

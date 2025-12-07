@@ -79,70 +79,76 @@ const AdminDashboard = () => {
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div className="card bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+                    <div className="card bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/30 transform hover:-translate-y-1 transition-all duration-300">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-blue-100 text-sm">Total Patients</p>
-                                <p className="text-3xl font-bold mt-1">{stats?.totalPatients || 0}</p>
+                                <p className="text-blue-100 text-sm font-medium">Total Patients</p>
+                                <p className="text-3xl font-bold mt-1 text-white">{stats?.totalPatients || 0}</p>
                             </div>
-                            <div className="text-5xl opacity-50">👥</div>
+                            <div className="text-5xl opacity-80 backdrop-blur-sm rounded-full bg-white/20 p-2">👥</div>
                         </div>
-                        <p className="text-blue-100 text-xs mt-2">
+                        <p className="text-blue-100 text-xs mt-3 flex items-center font-medium px-2 py-1 bg-white/20 rounded-lg w-fit">
                             +{stats?.recentPatients || 0} in last 7 days
                         </p>
                     </div>
 
-                    <div className="card bg-gradient-to-br from-green-500 to-green-600 text-white">
+                    <div className="card bg-gradient-to-br from-green-500 to-green-600 text-white shadow-lg shadow-green-500/30 transform hover:-translate-y-1 transition-all duration-300">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-green-100 text-sm">Total Providers</p>
-                                <p className="text-3xl font-bold mt-1">{stats?.totalProviders || 0}</p>
+                                <p className="text-green-100 text-sm font-medium">Total Providers</p>
+                                <p className="text-3xl font-bold mt-1 text-white">{stats?.totalProviders || 0}</p>
                             </div>
-                            <div className="text-5xl opacity-50">👨‍⚕️</div>
+                            <div className="text-5xl opacity-80 backdrop-blur-sm rounded-full bg-white/20 p-2">👨‍⚕️</div>
                         </div>
-                        <p className="text-green-100 text-xs mt-2">
+                        <p className="text-green-100 text-xs mt-3 flex items-center font-medium px-2 py-1 bg-white/20 rounded-lg w-fit">
                             +{stats?.recentProviders || 0} in last 7 days
                         </p>
                     </div>
 
-                    <div className="card bg-gradient-to-br from-purple-500 to-purple-600 text-white">
+                    <div className="card bg-gradient-to-br from-purple-500 to-purple-600 text-white shadow-lg shadow-purple-500/30 transform hover:-translate-y-1 transition-all duration-300">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-purple-100 text-sm">Assigned Patients</p>
-                                <p className="text-3xl font-bold mt-1">{stats?.patientsWithProviders || 0}</p>
+                                <p className="text-purple-100 text-sm font-medium">Assigned Patients</p>
+                                <p className="text-3xl font-bold mt-1 text-white">{stats?.patientsWithProviders || 0}</p>
                             </div>
-                            <div className="text-5xl opacity-50">✅</div>
+                            <div className="text-5xl opacity-80 backdrop-blur-sm rounded-full bg-white/20 p-2">✅</div>
                         </div>
-                        <p className="text-purple-100 text-xs mt-2">
+                        <p className="text-purple-100 text-xs mt-3 flex items-center font-medium px-2 py-1 bg-white/20 rounded-lg w-fit">
                             {stats?.totalPatients > 0
                                 ? Math.round((stats.patientsWithProviders / stats.totalPatients) * 100)
                                 : 0}% of total
                         </p>
                     </div>
 
-                    <div className="card bg-gradient-to-br from-orange-500 to-orange-600 text-white">
+                    <div className="card bg-gradient-to-br from-red-500 to-red-600 text-white shadow-lg shadow-red-500/30 transform hover:-translate-y-1 transition-all duration-300">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-orange-100 text-sm">Unassigned Patients</p>
-                                <p className="text-3xl font-bold mt-1">{stats?.patientsWithoutProviders || 0}</p>
+                                <p className="text-red-100 text-sm font-medium">Unassigned Patients</p>
+                                <p className="text-3xl font-bold mt-1 text-white">{stats?.patientsWithoutProviders || 0}</p>
                             </div>
-                            <div className="text-5xl opacity-50">⚠️</div>
+                            <div className="text-5xl opacity-80 backdrop-blur-sm rounded-full bg-white/20 p-2">⚠️</div>
                         </div>
-                        <p className="text-orange-100 text-xs mt-2">
+                        <p className="text-red-50 text-xs mt-3 flex items-center font-medium px-2 py-1 bg-white/20 rounded-lg w-fit">
                             Need provider assignment
                         </p>
                     </div>
                 </div>
 
                 {/* Provider Management Section */}
-                <div className="card">
-                    <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-2xl font-bold text-gray-900">Healthcare Providers</h2>
+                <div className="card overflow-hidden border border-gray-100 shadow-xl">
+                    <div className="p-6 border-b border-gray-100 bg-white flex justify-between items-center">
+                        <div>
+                            <h2 className="text-2xl font-bold text-gray-900">Healthcare Providers</h2>
+                            <p className="text-sm text-gray-500 mt-1">Manage and monitor provider performance</p>
+                        </div>
                         <button
                             onClick={() => setShowAddModal(true)}
-                            className="btn btn-primary"
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 transform hover:-translate-y-0.5 whitespace-nowrap min-w-fit font-medium text-sm"
                         >
-                            + Add Provider
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            <span className="font-medium">Add Provider</span>
                         </button>
                     </div>
 

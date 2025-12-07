@@ -59,6 +59,7 @@ const Navbar = () => {
                                     onClick={handleLogout}
                                     className="btn btn-secondary text-sm hover:bg-gray-200 transition-colors"
                                 >
+                                    
                                     Logout
                                 </button>
                             </div>

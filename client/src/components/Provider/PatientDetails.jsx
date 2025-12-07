@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { providerAPI } from '../../services/api.js';
+import Modal from '../Common/Modal.jsx';
+import '../../styles/Modal.css';
 
 const PatientDetails = ({ patientData, onReminderCreated }) => {
     const { patient, goals, reminders } = patientData;
@@ -65,10 +67,10 @@ const PatientDetails = ({ patientData, onReminderCreated }) => {
                         </div>
                     </div>
                     <button
-                        onClick={() => setShowReminderForm(!showReminderForm)}
+                        onClick={() => setShowReminderForm(true)}
                         className="btn btn-primary"
                     >
-                        {showReminderForm ? 'Cancel' : '+ Add Reminder'}
+                        + Add Reminder
                     </button>
                 </div>
 
@@ -142,8 +144,13 @@ const PatientDetails = ({ patientData, onReminderCreated }) => {
                     </div>
                 )}
 
-                {showReminderForm && (
-                    <form onSubmit={handleReminderSubmit} className="mb-6 p-4 bg-gray-50 rounded-lg space-y-4">
+                <Modal
+                    isOpen={showReminderForm}
+                    onClose={() => setShowReminderForm(false)}
+                    title="Create New Reminder"
+                    size="md"
+                >
+                    <form onSubmit={handleReminderSubmit} className="space-y-4">
                         <div className="grid md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -199,15 +206,24 @@ const PatientDetails = ({ patientData, onReminderCreated }) => {
                                 onChange={(e) => setReminderForm({ ...reminderForm, dueDate: e.target.value })}
                             />
                         </div>
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="btn btn-primary w-full"
-                        >
-                            {loading ? 'Creating...' : 'Create Reminder'}
-                        </button>
+                        <div className="flex gap-3 pt-4">
+                            <button
+                                type="button"
+                                onClick={() => setShowReminderForm(false)}
+                                className="btn bg-gray-500 hover:bg-gray-600 text-white flex-1"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="btn btn-primary flex-1"
+                            >
+                                {loading ? 'Creating...' : 'Create Reminder'}
+                            </button>
+                        </div>
                     </form>
-                )}
+                </Modal>
 
                 {/* Comprehensive Health Information */}
                 {patient.healthInfo && (

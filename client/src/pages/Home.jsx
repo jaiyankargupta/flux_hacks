@@ -36,12 +36,7 @@ const Home = () => {
                                     >
                                         Start Your Journey
                                     </Link>
-                                    <Link
-                                        to="/login"
-                                        className="px-8 py-4 text-lg font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-center"
-                                    >
-                                        Login
-                                    </Link>
+                                    
                                 </>
                             ) : (
                                 <Link

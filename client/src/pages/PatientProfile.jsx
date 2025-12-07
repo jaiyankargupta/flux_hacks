@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
 import axios from 'axios';
+import '../styles/PatientProfile.css';
 
 const PatientProfile = () => {
     const { user } = useAuth();
@@ -96,69 +97,63 @@ const PatientProfile = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Loading profile...</p>
+            <div className="loading-container">
+                <div className="loading-content">
+                    <div className="loading-spinner"></div>
+                    <p className="loading-text">Loading profile...</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 py-8 px-4">
-            <div className="max-w-4xl mx-auto">
+        <div className="patient-profile">
+            <div className="profile-container">
                 {/* Header */}
-                <div className="mb-8 animate-in">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">My Profile</h1>
-                    <p className="text-gray-600">Manage your personal and health information</p>
+                <div className="profile-header">
+                    <h1 className="profile-title">My Profile</h1>
+                    <p className="profile-subtitle">Manage your personal and health information</p>
                 </div>
 
                 {/* Alerts */}
                 {error && (
-                    <div className="bg-danger-50 border border-danger-200 text-danger-700 px-4 py-3 rounded-lg mb-6 animate-in">
+                    <div className="alert alert-error">
                         {error}
                     </div>
                 )}
                 {success && (
-                    <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6 animate-in">
+                    <div className="alert alert-success">
                         {success}
                     </div>
                 )}
 
                 {/* Profile Card */}
-                <div className="card animate-in">
+                <div className="profile-card">
                     {/* User Info Header */}
-                    <div className="flex items-center gap-4 pb-6 border-b border-gray-200 mb-6">
-                        <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+                    <div className="user-info-header">
+                        <div className="user-avatar">
                             {user?.name?.charAt(0).toUpperCase()}
                         </div>
-                        <div>
-                            <h2 className="text-2xl font-bold text-gray-900">{user?.name}</h2>
-                            <p className="text-gray-600">{user?.email}</p>
-                            <span className="inline-block mt-1 px-3 py-1 bg-primary-100 text-primary-700 text-sm font-medium rounded-full">
+                        <div className="user-details">
+                            <h2>{user?.name}</h2>
+                            <p>{user?.email}</p>
+                            <span className="user-badge">
                                 Patient
                             </span>
                         </div>
                     </div>
 
                     {/* Tabs */}
-                    <div className="flex gap-4 mb-6 border-b border-gray-200">
+                    <div className="tabs-container">
                         <button
                             onClick={() => setActiveTab('basic')}
-                            className={`pb-3 px-4 font-medium transition-colors border-b-2 ${activeTab === 'basic'
-                                    ? 'border-primary-600 text-primary-600'
-                                    : 'border-transparent text-gray-600 hover:text-gray-900'
-                                }`}
+                            className={`tab-button ${activeTab === 'basic' ? 'active' : ''}`}
                         >
                             Basic Information
                         </button>
                         <button
                             onClick={() => setActiveTab('health')}
-                            className={`pb-3 px-4 font-medium transition-colors border-b-2 ${activeTab === 'health'
-                                    ? 'border-primary-600 text-primary-600'
-                                    : 'border-transparent text-gray-600 hover:text-gray-900'
-                                }`}
+                            className={`tab-button ${activeTab === 'health' ? 'active' : ''}`}
                         >
                             Health Information
                         </button>
@@ -166,16 +161,16 @@ const PatientProfile = () => {
 
                     {/* Basic Information Tab */}
                     {activeTab === 'basic' && (
-                        <div className="space-y-6">
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <div className="tab-content">
+                            <div className="form-grid">
+                                <div className="form-group">
+                                    <label className="form-label">
                                         Age
                                     </label>
                                     <input
                                         type="number"
                                         name="age"
-                                        className="input"
+                                        className="form-input"
                                         placeholder="25"
                                         value={basicInfo.age}
                                         onChange={handleBasicInfoChange}
@@ -184,13 +179,13 @@ const PatientProfile = () => {
                                     />
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <div className="form-group">
+                                    <label className="form-label">
                                         Gender
                                     </label>
                                     <select
                                         name="gender"
-                                        className="input"
+                                        className="form-select"
                                         value={basicInfo.gender}
                                         onChange={handleBasicInfoChange}
                                     >
@@ -202,14 +197,14 @@ const PatientProfile = () => {
                                     </select>
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <div className="form-group">
+                                    <label className="form-label">
                                         Height (cm)
                                     </label>
                                     <input
                                         type="number"
                                         name="height"
-                                        className="input"
+                                        className="form-input"
                                         placeholder="170"
                                         value={basicInfo.height}
                                         onChange={handleBasicInfoChange}
@@ -218,14 +213,14 @@ const PatientProfile = () => {
                                     />
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <div className="form-group">
+                                    <label className="form-label">
                                         Weight (kg)
                                     </label>
                                     <input
                                         type="number"
                                         name="weight"
-                                        className="input"
+                                        className="form-input"
                                         placeholder="70"
                                         value={basicInfo.weight}
                                         onChange={handleBasicInfoChange}
@@ -234,13 +229,13 @@ const PatientProfile = () => {
                                     />
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <div className="form-group">
+                                    <label className="form-label">
                                         Blood Group
                                     </label>
                                     <select
                                         name="bloodGroup"
-                                        className="input"
+                                        className="form-select"
                                         value={basicInfo.bloodGroup}
                                         onChange={handleBasicInfoChange}
                                     >
@@ -256,14 +251,14 @@ const PatientProfile = () => {
                                     </select>
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <div className="form-group">
+                                    <label className="form-label">
                                         Contact Number
                                     </label>
                                     <input
                                         type="tel"
                                         name="contactNumber"
-                                        className="input"
+                                        className="form-input"
                                         placeholder="+91 9876543210"
                                         value={basicInfo.contactNumber}
                                         onChange={handleBasicInfoChange}
@@ -275,54 +270,54 @@ const PatientProfile = () => {
 
                     {/* Health Information Tab */}
                     {activeTab === 'health' && (
-                        <div className="space-y-6">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <div className="tab-content">
+                            <div className="form-group">
+                                <label className="form-label">
                                     Allergies
                                 </label>
                                 <textarea
                                     name="allergies"
-                                    className="input min-h-[100px]"
+                                    className="form-textarea"
                                     placeholder="List any allergies (e.g., peanuts, penicillin, latex)"
                                     value={healthInfo.allergies}
                                     onChange={handleHealthInfoChange}
                                 />
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <div className="form-group">
+                                <label className="form-label">
                                     Current Medications
                                 </label>
                                 <textarea
                                     name="medications"
-                                    className="input min-h-[100px]"
+                                    className="form-textarea"
                                     placeholder="List current medications with dosage"
                                     value={healthInfo.medications}
                                     onChange={handleHealthInfoChange}
                                 />
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <div className="form-group">
+                                <label className="form-label">
                                     Medical Conditions
                                 </label>
                                 <textarea
                                     name="conditions"
-                                    className="input min-h-[100px]"
+                                    className="form-textarea"
                                     placeholder="List any chronic conditions or past medical history"
                                     value={healthInfo.conditions}
                                     onChange={handleHealthInfoChange}
                                 />
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <div className="form-group">
+                                <label className="form-label">
                                     Emergency Contact
                                 </label>
                                 <input
                                     type="text"
                                     name="emergencyContact"
-                                    className="input"
+                                    className="form-input"
                                     placeholder="Name and phone number"
                                     value={healthInfo.emergencyContact}
                                     onChange={handleHealthInfoChange}
@@ -332,11 +327,11 @@ const PatientProfile = () => {
                     )}
 
                     {/* Save Button */}
-                    <div className="mt-8 pt-6 border-t border-gray-200">
+                    <div className="form-actions">
                         <button
                             onClick={handleSave}
                             disabled={saving}
-                            className="btn btn-primary w-full md:w-auto px-8 py-3"
+                            className="save-button"
                         >
                             {saving ? 'Saving...' : 'Save Changes'}
                         </button>

@@ -33,7 +33,7 @@ const PatientList = ({ patients, onPatientSelect, selectedPatientId }) => {
                         <p className="text-sm text-slate-500 mt-1">Patients will appear here when assigned to you</p>
                     </div>
                 ) : (
-                    <div className="p-4 space-y-3">
+                    <div className="p-4 space-y-4">
                         {patients.map((patient) => (
                             <button
                                 key={patient._id}

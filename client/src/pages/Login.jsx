@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
+import '../styles/Auth.css';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -44,26 +45,26 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-primary-100 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8 animate-in">
-                <div className="card">
-                    <div className="text-center mb-8">
-                        <div className="mx-auto w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center mb-4">
-                            <span className="text-white font-bold text-2xl">H+</span>
+        <div className="auth-container">
+            <div className="auth-wrapper">
+                <div className="auth-card">
+                    <div className="auth-header">
+                        <div className="auth-logo">
+                            <span className="auth-logo-text">H+</span>
                         </div>
-                        <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
-                        <p className="mt-2 text-gray-600">Sign in to your healthcare account</p>
+                        <h2 className="auth-title">Welcome Back</h2>
+                        <p className="auth-subtitle">Sign in to your healthcare account</p>
                     </div>
 
                     {error && (
-                        <div className="bg-danger-50 border border-danger-200 text-danger-700 px-4 py-3 rounded-lg mb-4">
+                        <div className="error-alert">
                             {error}
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    <form onSubmit={handleSubmit} className="auth-form">
+                        <div className="form-group">
+                            <label htmlFor="email" className="form-label">
                                 Email Address
                             </label>
                             <input
@@ -71,15 +72,15 @@ const Login = () => {
                                 name="email"
                                 type="email"
                                 required
-                                className="input"
+                                className="form-input"
                                 placeholder="you@example.com"
                                 value={formData.email}
                                 onChange={handleChange}
                             />
                         </div>
 
-                        <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                        <div className="form-group">
+                            <label htmlFor="password" className="form-label">
                                 Password
                             </label>
                             <input
@@ -87,7 +88,7 @@ const Login = () => {
                                 name="password"
                                 type="password"
                                 required
-                                className="input"
+                                className="form-input"
                                 placeholder="••••••••"
                                 value={formData.password}
                                 onChange={handleChange}
@@ -97,16 +98,16 @@ const Login = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full btn btn-primary py-3 text-lg"
+                            className="auth-button"
                         >
                             {loading ? 'Signing in...' : 'Sign In'}
                         </button>
                     </form>
 
-                    <div className="mt-6 text-center">
-                        <p className="text-gray-600">
+                    <div className="auth-footer">
+                        <p className="footer-text">
                             Don't have an account?{' '}
-                            <Link to="/register" className="text-primary-600 hover:text-primary-700 font-medium">
+                            <Link to="/register" className="footer-link">
                                 Register here
                             </Link>
                         </p>

@@ -39,8 +39,11 @@ const Navbar = () => {
                             >
                                 Dashboard
                             </Link>
+                            <Link to="/health-info" className="nav-link">
+                                Health Info
+                            </Link>
                             {user?.role === 'patient' && <Link
-                                to="/profile"
+                                to="/patient/profile"
                                 className="nav-link"
                             >
                                 Profile
@@ -67,6 +70,9 @@ const Navbar = () => {
                         <>
                             <Link to="/" className="nav-link">
                                 Home
+                            </Link>
+                            <Link to="/health-info" className="nav-link">
+                                Health Info
                             </Link>
                             <Link to="/login" className="nav-link">
                                 Login

@@ -11,6 +11,7 @@ import PatientDashboard from './pages/PatientDashboard.jsx';
 import PatientProfile from './pages/PatientProfile.jsx';
 import ProviderDashboard from './pages/ProviderDashboard.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
+import HealthInfo from './pages/HealthInfo.jsx';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/health-info" element={<HealthInfo />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile-setup" element={<ProfileSetup />} />

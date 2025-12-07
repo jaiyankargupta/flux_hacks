@@ -112,3 +112,39 @@ exports.updateProfile = async (req, res, next) => {
         next(error);
     }
 };
+
+// @desc    Update user basic info
+// @route   PUT /api/auth/basic-info
+// @access  Private
+exports.updateBasicInfo = async (req, res, next) => {
+    try {
+        const { age, gender, height, weight, bloodGroup, contactNumber } = req.body;
+        
+        const user = await User.findById(req.user.id);
+        
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found',
+            });
+        }
+        
+        user.basicInfo = {
+            age,
+            gender,
+            height,
+            weight,
+            bloodGroup,
+            contactNumber
+        };
+        
+        await user.save();
+        
+        res.status(200).json({
+            success: true,
+            data: user,
+        });
+    } catch (error) {
+        next(error);
+    }
+};

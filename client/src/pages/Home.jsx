@@ -6,7 +6,7 @@ const Home = () => {
 
     const healthInfo = [
         {
-            title: 'COVID-19 Updates',
+            title: 'COVID-19 Updatess',
             description: 'Stay informed about the latest COVID-19 guidelines and vaccination information.',
             icon: '🦠',
             color: 'from-red-500 to-pink-500',

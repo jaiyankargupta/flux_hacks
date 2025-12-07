@@ -22,6 +22,7 @@ app.use(cors({
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/patient', require('./routes/patient'));
 app.use('/api/provider', require('./routes/provider'));
+app.use('/api/admin', require('./routes/admin'));
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -35,7 +36,7 @@ app.get('/api/health', (req, res) => {
 // Error handler (must be last)
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5001; // process.env.PORT || 5001;
 
 const server = app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);

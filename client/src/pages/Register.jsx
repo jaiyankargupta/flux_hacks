@@ -147,21 +147,6 @@ const Register = () => {
                             />
                         </div>
 
-                        <div>
-                            <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
-                                I am a
-                            </label>
-                            <select
-                                id="role"
-                                name="role"
-                                className="input"
-                                value={formData.role}
-                                onChange={handleChange}
-                            >
-                                <option value="patient">Patient</option>
-                                <option value="provider">Healthcare Provider</option>
-                            </select>
-                        </div>
 
                         <div className="flex items-start">
                             <input

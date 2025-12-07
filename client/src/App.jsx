@@ -7,6 +7,7 @@ import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import PatientDashboard from './pages/PatientDashboard.jsx';
 import ProviderDashboard from './pages/ProviderDashboard.jsx';
+import AdminDashboard from './pages/AdminDashboard.jsx';
 
 function App() {
   return (
@@ -33,6 +34,15 @@ function App() {
               element={
                 <PrivateRoute role="provider">
                   <ProviderDashboard />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/admin/dashboard"
+              element={
+                <PrivateRoute role="admin">
+                  <AdminDashboard />
                 </PrivateRoute>
               }
             />

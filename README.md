@@ -252,7 +252,7 @@ Our portal bridges this gap by providing:
 
 6. **Access the Application**
    - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5000
+   - Backend API: http://localhost:5001
 
 ---
 

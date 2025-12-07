@@ -28,8 +28,19 @@ const userSchema = new mongoose.Schema({
         enum: ['patient', 'provider'],
         default: 'patient',
     },
+    //Basic info of patient
+    basicInfo: {
+        age: Number,
+        contactNumber: Number,
+        gender: String,
+        height: Number,
+        weight: Number,
+        bloodGroup: String
+    },
+
     // Patient-specific fields
     healthInfo: {
+        conditions: [String],
         allergies: [String],
         medications: [String],
         medicalHistory: String,
@@ -39,7 +50,74 @@ const userSchema = new mongoose.Schema({
             relationship: String,
         },
     },
+    // Patient's assigned provider
+    assignedProvider: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
     // Provider-specific fields
+    providerInfo: {
+        licenseNumber: {
+            type: String,
+            trim: true,
+        },
+        specialization: {
+            type: String,
+            trim: true,
+        },
+        qualification: {
+            type: String,
+            trim: true,
+        },
+        yearsOfExperience: {
+            type: Number,
+            min: 0,
+        },
+        clinicName: {
+            type: String,
+            trim: true,
+        },
+        hospitalAffiliation: {
+            type: String,
+            trim: true,
+        },
+        // Location information
+        location: {
+            address: {
+                street: String,
+                city: String,
+                state: String,
+                zipCode: String,
+                country: {
+                    type: String,
+                    default: 'India',
+                },
+            }
+        },
+        // Contact information
+        contactInfo: {
+            phone: String,
+            alternatePhone: String,
+            officeEmail: String,
+            website: String,
+        },
+        // Availability
+        availability: {
+            workingDays: [String], // e.g., ['Monday', 'Tuesday', 'Wednesday']
+            workingHours: {
+                start: String, // e.g., '09:00'
+                end: String,   // e.g., '17:00'
+            },
+            consultationFee: Number,
+        },
+        // Professional details
+        languages: [String],
+        servicesOffered: [String],
+        bio: {
+            type: String,
+            maxlength: 1000,
+        },
+    },
     assignedPatients: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

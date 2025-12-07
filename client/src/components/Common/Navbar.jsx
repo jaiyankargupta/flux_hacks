@@ -40,12 +40,14 @@ const Navbar = () => {
                                 >
                                     Dashboard
                                 </Link>
-                                <Link
-                                    to="/profile"
-                                    className="nav-link font-medium"
-                                >
-                                    Profile
-                                </Link>
+                                {user?.role === 'patient' && (
+                                    <Link
+                                        to="/patient/profile"
+                                        className="nav-link font-medium"
+                                    >
+                                        Profile
+                                    </Link>
+                                )}
                                 <div className="flex items-center space-x-4 pl-4 border-l border-gray-200">
                                     <div className="text-right hidden md:block">
                                         <p className="text-sm font-bold text-gray-800">{user?.name}</p>

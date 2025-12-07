@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import {useAuth } from '../context/AuthContext.jsx';
+import { useAuth } from '../../context/AuthContext.jsx';
 
 const Home = () => {
     const { isAuthenticated, user } = useAuth();
 
     const healthInfo = [
         {
-            title: 'COVID-19 Updates',
+            title: 'COVID-19 Updatess',
             description: 'Stay informed about the latest COVID-19 guidelines and vaccination information.',
             icon: '🦠',
             color: 'from-red-500 to-pink-500',

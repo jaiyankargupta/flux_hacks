@@ -171,3 +171,154 @@ exports.completeReminder = async (req, res, next) => {
         next(error);
     }
 };
+
+// @desc    Get all available healthcare providers
+// @route   GET /api/patient/providers
+// @access  Private (Patient)
+exports.getAvailableProviders = async (req, res, next) => {
+    try {
+        const User = require('../models/User');
+        
+        const providers = await User.find({ role: 'provider' })
+            .select('name email providerInfo basicInfo createdAt')
+            .sort({ 'providerInfo.specialization': 1 });
+
+        res.status(200).json({
+            success: true,
+            count: providers.length,
+            data: providers,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// @desc    Assign a provider to patient
+// @route   POST /api/patient/provider/:providerId
+// @access  Private (Patient)
+exports.assignProvider = async (req, res, next) => {
+    try {
+        const User = require('../models/User');
+        const providerId = req.params.providerId;
+
+        // Check if provider exists and is actually a provider
+        const provider = await User.findById(providerId);
+        if (!provider) {
+            return res.status(404).json({
+                success: false,
+                message: 'Provider not found',
+            });
+        }
+
+        if (provider.role !== 'provider') {
+            return res.status(400).json({
+                success: false,
+                message: 'Selected user is not a healthcare provider',
+            });
+        }
+
+        // Get current patient
+        const patient = await User.findById(req.user.id);
+
+        // If patient already has a provider, remove patient from old provider's list
+        if (patient.assignedProvider) {
+            await User.findByIdAndUpdate(
+                patient.assignedProvider,
+                { $pull: { assignedPatients: patient._id } }
+            );
+        }
+
+        // Update patient's assigned provider
+        patient.assignedProvider = providerId;
+        await patient.save();
+
+        // Add patient to provider's assigned patients if not already there
+        if (!provider.assignedPatients.includes(patient._id)) {
+            provider.assignedPatients.push(patient._id);
+            await provider.save();
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Provider assigned successfully',
+            data: {
+                patient: {
+                    id: patient._id,
+                    name: patient.name,
+                    assignedProvider: providerId,
+                },
+                provider: {
+                    id: provider._id,
+                    name: provider.name,
+                    specialization: provider.providerInfo?.specialization,
+                },
+            },
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// @desc    Get patient's assigned provider
+// @route   GET /api/patient/provider
+// @access  Private (Patient)
+exports.getAssignedProvider = async (req, res, next) => {
+    try {
+        const User = require('../models/User');
+        
+        const patient = await User.findById(req.user.id)
+            .populate('assignedProvider', 'name email providerInfo basicInfo');
+
+        if (!patient.assignedProvider) {
+            return res.status(200).json({
+                success: true,
+                data: null,
+                message: 'No provider assigned',
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: patient.assignedProvider,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// @desc    Unassign provider from patient
+// @route   DELETE /api/patient/provider
+// @access  Private (Patient)
+exports.unassignProvider = async (req, res, next) => {
+    try {
+        const User = require('../models/User');
+        
+        const patient = await User.findById(req.user.id);
+
+        if (!patient.assignedProvider) {
+            return res.status(400).json({
+                success: false,
+                message: 'No provider assigned to unassign',
+            });
+        }
+
+        const providerId = patient.assignedProvider;
+
+        // Remove patient from provider's assigned patients
+        await User.findByIdAndUpdate(
+            providerId,
+            { $pull: { assignedPatients: patient._id } }
+        );
+
+        // Remove provider from patient
+        patient.assignedProvider = null;
+        await patient.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Provider unassigned successfully',
+        });
+    } catch (error) {
+        next(error);
+    }
+};

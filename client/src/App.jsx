@@ -5,6 +5,8 @@ import PrivateRoute from './components/Common/PrivateRoute.jsx';
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
+import ProfileSetup from './pages/ProfileSetup.jsx';
+import ProviderSelection from './pages/ProviderSelection.jsx';
 import PatientDashboard from './pages/PatientDashboard.jsx';
 import ProviderDashboard from './pages/ProviderDashboard.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
@@ -19,6 +21,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/profile-setup" element={<ProfileSetup />} />
+            <Route path="/select-provider" element={<ProviderSelection />} />
 
             <Route
               path="/patient/dashboard"

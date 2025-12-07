@@ -53,9 +53,11 @@ const Register = () => {
 
             // Redirect based on role
             if (userRole === 'patient') {
-                navigate('/patient/dashboard');
+                navigate('/profile-setup');
             } else if (userRole === 'provider') {
                 navigate('/provider/dashboard');
+            } else if (userRole === 'admin') {
+                navigate('/admin/dashboard');
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed. Please try again.');

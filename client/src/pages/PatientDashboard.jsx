@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { patientAPI } from '../../services/api.js';
-import GoalTracker from '../../components/Patient/GoalTracker.jsx';
-import RemindersCard from '../../components/Patient/RemindersCard.jsx';
-import HealthTipCard from '../../components/Patient/HealthTipCard.jsx';
-import Loading from '../../components/Common/Loading.jsx';
+import { patientAPI } from '../services/api.js';
+import GoalTracker from '../components/Patient/GoalTracker.jsx';
+import RemindersCard from '../components/Patient/RemindersCard.jsx';
+import HealthTipCard from '../components/Patient/HealthTipCard.jsx';
+import Loading from '../components/Common/Loading.jsx';
 
 const PatientDashboard = () => {
     const [dashboardData, setDashboardData] = useState(null);

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { providerAPI } from '../../services/api.js';
-import PatientList from '../../components/Provider/PatientList.jsx';
-import PatientDetails from '../../components/Provider/PatientDetails.jsx';
-import Loading from '../../components/Common/Loading.jsx';
+import { providerAPI } from '../services/api.js';
+import PatientList from '../components/Provider/PatientList.jsx';
+import PatientDetails from '../components/Provider/PatientDetails.jsx';
+import Loading from '../components/Common/Loading.jsx';
 
 const ProviderDashboard = () => {
     const [patients, setPatients] = useState([]);

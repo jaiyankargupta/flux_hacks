@@ -8,6 +8,8 @@ exports.register = async (req, res, next) => {
     try {
         const { name, email, password, role, consentGiven } = req.body;
 
+        console.log(name);
+
         // Validate consent
         if (!consentGiven) {
             return res.status(400).json({
@@ -120,16 +122,16 @@ exports.updateProfile = async (req, res, next) => {
 exports.updateBasicInfo = async (req, res, next) => {
     try {
         const { age, gender, height, weight, bloodGroup, contactNumber } = req.body;
-        
+
         const user = await User.findById(req.user.id);
-        
+
         if (!user) {
             return res.status(404).json({
                 success: false,
                 message: 'User not found',
             });
         }
-        
+
         user.basicInfo = {
             age,
             gender,
@@ -138,9 +140,9 @@ exports.updateBasicInfo = async (req, res, next) => {
             bloodGroup,
             contactNumber
         };
-        
+
         await user.save();
-        
+
         res.status(200).json({
             success: true,
             data: user,

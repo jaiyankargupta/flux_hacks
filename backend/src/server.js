@@ -20,6 +20,10 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
+// Logger Middleware
+const logger = require('./middleware/logger');
+app.use(logger);
+
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/patient', require('./routes/patient'));

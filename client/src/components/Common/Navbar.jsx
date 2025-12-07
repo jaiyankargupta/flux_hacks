@@ -11,21 +11,21 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-white shadow-md sticky top-0 z-50">
+        <nav className="glass sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
-                    {/* Logo */}
-                    <Link to="/" className="flex items-center space-x-2">
-                        <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center">
+                    {/* Logo */}{/* Updated Logo Section */}
+                    <Link to="/" className="flex items-center space-x-3 group">
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl shadow-lg flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
                             <span className="text-white font-bold text-xl">H+</span>
                         </div>
-                        <span className="text-xl font-bold text-gray-800">
+                        <span className="text-xl font-bold text-gray-800 tracking-tight group-hover:text-blue-600 transition-colors">
                             Healthcare Portal
                         </span>
                     </Link>
 
                     {/* Navigation Links */}
-                    <div className="flex items-center space-x-6">
+                    <div className="flex items-center space-x-8">
                         {isAuthenticated ? (
                             <>
                                 <Link
@@ -36,24 +36,26 @@ const Navbar = () => {
                                                 ? '/provider/dashboard'
                                                 : '/admin/dashboard'
                                     }
-                                    className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
+                                    className="nav-link font-medium"
                                 >
                                     Dashboard
                                 </Link>
                                 <Link
                                     to="/profile"
-                                    className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
+                                    className="nav-link font-medium"
                                 >
                                     Profile
                                 </Link>
-                                <div className="flex items-center space-x-3">
-                                    <div className="text-right">
-                                        <p className="text-sm font-medium text-gray-800">{user?.name}</p>
-                                        <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
+                                <div className="flex items-center space-x-4 pl-4 border-l border-gray-200">
+                                    <div className="text-right hidden md:block">
+                                        <p className="text-sm font-bold text-gray-800">{user?.name}</p>
+                                        <p className="text-xs text-blue-600 font-medium capitalize bg-blue-50 px-2 py-0.5 rounded-full inline-block">
+                                            {user?.role}
+                                        </p>
                                     </div>
                                     <button
                                         onClick={handleLogout}
-                                        className="btn btn-secondary text-sm"
+                                        className="btn btn-secondary text-sm hover:bg-gray-200 transition-colors"
                                     >
                                         Logout
                                     </button>
@@ -61,14 +63,14 @@ const Navbar = () => {
                             </>
                         ) : (
                             <>
-                                <Link to="/" className="text-gray-700 hover:text-primary-600 transition-colors font-medium">
+                                <Link to="/" className="nav-link font-medium">
                                     Home
                                 </Link>
-                                <Link to="/login" className="btn btn-secondary text-sm">
+                                <Link to="/login" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">
                                     Login
                                 </Link>
-                                <Link to="/register" className="btn btn-primary text-sm">
-                                    Register
+                                <Link to="/register" className="btn btn-primary text-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+                                    Get Started
                                 </Link>
                             </>
                         )}

@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/HealthInfo.css';
 
 const HealthInfo = () => {
     const healthTips = [
@@ -89,32 +90,32 @@ const HealthInfo = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 py-8">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="health-info-container">
+            <div className="health-info-wrapper">
                 {/* Header */}
-                <div className="text-center mb-12">
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-800 via-green-700 to-teal-600 bg-clip-text text-transparent mb-4">
+                <div className="health-info-header">
+                    <h1 className="main-title">
                         General Health Information
                     </h1>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                    <p className="subtitle">
                         Your comprehensive guide to maintaining a healthy lifestyle and making informed health decisions
                     </p>
                 </div>
 
                 {/* Health Tips Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <div className="health-tips-grid">
                     {healthTips.map((tip, index) => (
-                        <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300">
-                            <div className="mb-4">
-                                <h3 className="text-lg font-bold text-gray-800 mb-2">{tip.category}</h3>
-                                <h4 className="text-xl font-semibold text-blue-700 mb-3">{tip.title}</h4>
-                                <p className="text-gray-600 mb-4">{tip.description}</p>
+                        <div key={index} className="health-tip-card">
+                            <div className="tip-header">
+                                <h3 className="tip-category">{tip.category}</h3>
+                                <h4 className="tip-title">{tip.title}</h4>
+                                <p className="tip-description">{tip.description}</p>
                             </div>
-                            <ul className="space-y-2">
+                            <ul className="tip-list">
                                 {tip.tips.map((item, tipIndex) => (
-                                    <li key={tipIndex} className="flex items-start gap-2">
-                                        <span className="text-green-500 mt-1">✓</span>
-                                        <span className="text-gray-700 text-sm">{item}</span>
+                                    <li key={tipIndex} className="tip-item">
+                                        <span className="tip-checkmark">✓</span>
+                                        <span className="tip-text">{item}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -123,27 +124,27 @@ const HealthInfo = () => {
                 </div>
 
                 {/* Emergency Information */}
-                <div className="bg-gradient-to-r from-red-50 to-orange-50 rounded-xl p-8 mb-12 border border-red-200">
-                    <h2 className="text-3xl font-bold text-red-800 mb-6 text-center">
+                <div className="emergency-section">
+                    <h2 className="emergency-title">
                         🚨 Emergency Health Information
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="emergency-grid">
                         {emergencyTips.map((emergency, index) => (
-                            <div key={index} className="bg-white rounded-lg p-6 shadow-md">
-                                <h3 className="text-lg font-bold text-red-700 mb-3">{emergency.title}</h3>
-                                <div className="mb-4">
-                                    <p className="text-sm font-medium text-gray-700 mb-2">Warning Signs:</p>
-                                    <ul className="space-y-1">
+                            <div key={index} className="emergency-card">
+                                <h3 className="emergency-card-title">{emergency.title}</h3>
+                                <div>
+                                    <p className="symptoms-label">Warning Signs:</p>
+                                    <ul className="symptoms-list">
                                         {emergency.symptoms.map((symptom, symptomIndex) => (
-                                            <li key={symptomIndex} className="text-sm text-gray-600 flex items-center gap-2">
-                                                <span className="text-red-500">•</span>
+                                            <li key={symptomIndex} className="symptom-item">
+                                                <span className="symptom-bullet">•</span>
                                                 {symptom}
                                             </li>
                                         ))}
                                     </ul>
                                 </div>
-                                <div className="bg-red-100 p-3 rounded-lg">
-                                    <p className="text-sm font-bold text-red-800">Action: {emergency.action}</p>
+                                <div className="action-alert">
+                                    <p className="action-text">Action: {emergency.action}</p>
                                 </div>
                             </div>
                         ))}
@@ -151,78 +152,78 @@ const HealthInfo = () => {
                 </div>
 
                 {/* Healthy Lifestyle Metrics */}
-                <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-8 mb-12">
-                    <h2 className="text-3xl font-bold text-green-800 mb-8 text-center">
+                <div className="metrics-section">
+                    <h2 className="metrics-title">
                         📊 Healthy Lifestyle Metrics
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div className="bg-white rounded-lg p-6 text-center shadow-md">
-                            <div className="text-3xl mb-3">🚶‍♂️</div>
-                            <h3 className="font-bold text-gray-800 mb-2">Daily Steps</h3>
-                            <p className="text-2xl font-bold text-blue-600">10,000+</p>
-                            <p className="text-sm text-gray-600">steps per day</p>
+                    <div className="metrics-grid">
+                        <div className="metric-card">
+                            <div className="metric-icon">🚶‍♂️</div>
+                            <h3 className="metric-label">Daily Steps</h3>
+                            <p className="metric-value">10,000+</p>
+                            <p className="metric-unit">steps per day</p>
                         </div>
-                        <div className="bg-white rounded-lg p-6 text-center shadow-md">
-                            <div className="text-3xl mb-3">💧</div>
-                            <h3 className="font-bold text-gray-800 mb-2">Water Intake</h3>
-                            <p className="text-2xl font-bold text-cyan-600">8-10</p>
-                            <p className="text-sm text-gray-600">glasses per day</p>
+                        <div className="metric-card">
+                            <div className="metric-icon">💧</div>
+                            <h3 className="metric-label">Water Intake</h3>
+                            <p className="metric-value">8-10</p>
+                            <p className="metric-unit">glasses per day</p>
                         </div>
-                        <div className="bg-white rounded-lg p-6 text-center shadow-md">
-                            <div className="text-3xl mb-3">😴</div>
-                            <h3 className="font-bold text-gray-800 mb-2">Sleep</h3>
-                            <p className="text-2xl font-bold text-purple-600">7-9</p>
-                            <p className="text-sm text-gray-600">hours per night</p>
+                        <div className="metric-card">
+                            <div className="metric-icon">😴</div>
+                            <h3 className="metric-label">Sleep</h3>
+                            <p className="metric-value">7-9</p>
+                            <p className="metric-unit">hours per night</p>
                         </div>
-                        <div className="bg-white rounded-lg p-6 text-center shadow-md">
-                            <div className="text-3xl mb-3">🥗</div>
-                            <h3 className="font-bold text-gray-800 mb-2">Fruits & Veggies</h3>
-                            <p className="text-2xl font-bold text-green-600">5+</p>
-                            <p className="text-sm text-gray-600">servings per day</p>
+                        <div className="metric-card">
+                            <div className="metric-icon">🥗</div>
+                            <h3 className="metric-label">Fruits & Veggies</h3>
+                            <p className="metric-value">5+</p>
+                            <p className="metric-unit">servings per day</p>
                         </div>
                     </div>
                 </div>
 
                 {/* Health Resources */}
-                <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/50">
-                    <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+                <div className="resources-section">
+                    <h2 className="resources-title">
                         🔗 Helpful Health Resources
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
-                            <h3 className="font-bold text-blue-700 mb-2">WHO - World Health Organization</h3>
-                            <p className="text-sm text-gray-600">Global health information and guidelines</p>
+                    <div className="resources-grid">
+                        <div className="resource-card">
+                            <h3 className="resource-title">WHO - World Health Organization</h3>
+                            <p className="resource-description">Global health information and guidelines</p>
                         </div>
-                        <div className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
-                            <h3 className="font-bold text-blue-700 mb-2">CDC - Centers for Disease Control</h3>
-                            <p className="text-sm text-gray-600">Disease prevention and health promotion</p>
+                        <div className="resource-card">
+                            <h3 className="resource-title">CDC - Centers for Disease Control</h3>
+                            <p className="resource-description">Disease prevention and health promotion</p>
                         </div>
-                        <div className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
-                            <h3 className="font-bold text-blue-700 mb-2">NIH - National Institutes of Health</h3>
-                            <p className="text-sm text-gray-600">Medical research and health information</p>
+                        <div className="resource-card">
+                            <h3 className="resource-title">NIH - National Institutes of Health</h3>
+                            <p className="resource-description">Medical research and health information</p>
                         </div>
-                        <div className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
-                            <h3 className="font-bold text-blue-700 mb-2">American Heart Association</h3>
-                            <p className="text-sm text-gray-600">Heart health and cardiovascular wellness</p>
+                        <div className="resource-card">
+                            <h3 className="resource-title">American Heart Association</h3>
+                            <p className="resource-description">Heart health and cardiovascular wellness</p>
                         </div>
-                        <div className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
-                            <h3 className="font-bold text-blue-700 mb-2">Mental Health America</h3>
-                            <p className="text-sm text-gray-600">Mental health resources and support</p>
+                        <div className="resource-card">
+                            <h3 className="resource-title">Mental Health America</h3>
+                            <p className="resource-description">Mental health resources and support</p>
                         </div>
-                        <div className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
-                            <h3 className="font-bold text-blue-700 mb-2">Nutrition.gov</h3>
-                            <p className="text-sm text-gray-600">Evidence-based nutrition information</p>
+                        <div className="resource-card">
+                            <h3 className="resource-title">Nutrition.gov</h3>
+                            <p className="resource-description">Evidence-based nutrition information</p>
                         </div>
                     </div>
                 </div>
 
                 {/* Disclaimer */}
-                <div className="mt-12 bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-                    <div className="flex items-start gap-3">
-                        <span className="text-yellow-600 text-xl">⚠️</span>
-                        <div>
-                            <h3 className="font-bold text-yellow-800 mb-2">Important Disclaimer</h3>
-                            <p className="text-sm text-yellow-700">
+                <div className="disclaimer-section">
+                    <div className="disclaimer-content">
+                        <span className="disclaimer-icon">⚠️</span>
+                        <div className="disclaimer-text">
+                            <h3 className="disclaimer-title">Important Disclaimer</h3>
+                            <p className="disclaimer-description">
                                 This information is for educational purposes only and should not replace professional medical advice. 
                                 Always consult with healthcare professionals for personalized medical guidance and treatment decisions.
                             </p>

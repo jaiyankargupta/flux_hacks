@@ -1,0 +1,524 @@
+/* Health Info Page Styles */
+.health-info-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #dbeafe 0%, #ffffff 30%, #ecfdf5 70%, #f0fdfa 100%);
+    padding: 2rem 0;
+}
+
+.health-info-wrapper {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Header Section */
+.health-info-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.main-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #1e40af 0%, #059669 50%, #0d9488 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    color: #6b7280;
+    max-width: 48rem;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+/* Health Tips Grid */
+.health-tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.health-tip-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 25px -3px rgba(37, 99, 235, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.health-tip-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, rgba(16, 185, 129, 0.03) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.health-tip-card:hover {
+    box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.25);
+    transform: translateY(-8px);
+}
+
+.health-tip-card:hover::before {
+    opacity: 1;
+}
+
+.tip-header {
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.tip-category {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.tip-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2563eb;
+    margin-bottom: 0.75rem;
+}
+
+.tip-description {
+    color: #6b7280;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.tip-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.tip-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.tip-checkmark {
+    color: #10b981;
+    font-weight: 600;
+    margin-top: 0.125rem;
+    font-size: 1rem;
+}
+
+.tip-text {
+    color: #4b5563;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+/* Emergency Section */
+.emergency-section {
+    background: linear-gradient(135deg, #fef2f2 0%, #fff7ed 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    border: 2px solid rgba(239, 68, 68, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.emergency-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #dc2626 0%, #ea580c 100%);
+}
+
+.emergency-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #b91c1c;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    animation: emergencyPulse 2s ease-in-out infinite;
+}
+
+.emergency-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.emergency-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px -3px rgba(239, 68, 68, 0.2);
+    transition: all 0.3s ease;
+}
+
+.emergency-card:hover {
+    box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.3);
+    transform: translateY(-4px);
+}
+
+.emergency-card-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #b91c1c;
+    margin-bottom: 0.75rem;
+}
+
+.symptoms-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+}
+
+.symptoms-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.symptom-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.symptom-bullet {
+    color: #dc2626;
+    font-weight: 700;
+}
+
+.action-alert {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    padding: 0.75rem;
+    border-radius: 8px;
+    border-left: 4px solid #dc2626;
+}
+
+.action-text {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #b91c1c;
+}
+
+/* Metrics Section */
+.metrics-section {
+    background: linear-gradient(135deg, #ecfdf5 0%, #dbeafe 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    border: 2px solid rgba(16, 185, 129, 0.2);
+}
+
+.metrics-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #065f46;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.metric-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 15px -3px rgba(16, 185, 129, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.metric-card:hover {
+    box-shadow: 0 15px 30px -5px rgba(16, 185, 129, 0.2);
+    transform: translateY(-6px);
+}
+
+.metric-card:hover::before {
+    opacity: 1;
+}
+
+.metric-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    animation: metricBounce 2s ease-in-out infinite;
+}
+
+.metric-label {
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.metric-unit {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+/* Metric Color Variants */
+.metric-card:nth-child(1) .metric-value { color: #2563eb; }
+.metric-card:nth-child(2) .metric-value { color: #0891b2; }
+.metric-card:nth-child(3) .metric-value { color: #7c3aed; }
+.metric-card:nth-child(4) .metric-value { color: #059669; }
+
+/* Resources Section */
+.resources-section {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 10px 25px -3px rgba(37, 99, 235, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.resources-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.resource-card {
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.resource-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.resource-card:hover {
+    border-color: #2563eb;
+    box-shadow: 0 8px 20px -5px rgba(37, 99, 235, 0.2);
+    transform: translateY(-3px);
+}
+
+.resource-card:hover::before {
+    opacity: 1;
+}
+
+.resource-title {
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.resource-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    position: relative;
+    z-index: 1;
+}
+
+/* Disclaimer Section */
+.disclaimer-section {
+    margin-top: 3rem;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border: 2px solid #f59e0b;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.disclaimer-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.disclaimer-icon {
+    color: #d97706;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+.disclaimer-text {
+    flex: 1;
+}
+
+.disclaimer-title {
+    font-weight: 700;
+    color: #92400e;
+    margin-bottom: 0.5rem;
+}
+
+.disclaimer-description {
+    font-size: 0.875rem;
+    color: #a16207;
+    line-height: 1.6;
+}
+
+/* Animations */
+@keyframes titleGlow {
+    0% {
+        filter: drop-shadow(0 0 5px rgba(37, 99, 235, 0.3));
+    }
+    100% {
+        filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.5));
+    }
+}
+
+@keyframes emergencyPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes metricBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .health-tips-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .main-title {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .health-info-wrapper {
+        padding: 0 0.5rem;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .health-tips-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .emergency-section,
+    .metrics-section,
+    .resources-section {
+        padding: 1.5rem;
+    }
+    
+    .emergency-grid,
+    .metrics-grid,
+    .resources-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .health-info-container {
+        padding: 1rem 0;
+    }
+    
+    .health-info-header {
+        margin-bottom: 2rem;
+    }
+    
+    .main-title {
+        font-size: 1.75rem;
+    }
+    
+    .health-tip-card,
+    .emergency-card,
+    .metric-card,
+    .resource-card {
+        padding: 1rem;
+    }
+    
+    .emergency-section,
+    .metrics-section,
+    .resources-section {
+        padding: 1rem;
+    }
+}
